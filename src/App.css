@@ -31,3 +31,52 @@
     transform: rotate(360deg);
   }
 }
+*{
+  font-family: Lato;
+}
+.dropdownstyle{
+  margin-left : 250px;  
+}
+
+.formstyle{
+  margin-right: 150px;
+}
+
+.template{
+ margin-left:300px;
+ margin-right:200px;
+ margin-top:15px;
+ margin-bottom:16px;
+}
+
+.jumbotron{
+  padding:5px !important;
+}
+
+.iconDetails {
+  margin-left:2%;
+ float:left; 
+ height:60px;
+ width:60px;	
+ } 
+
+ .styleplate{
+  margin-left:70px;
+ }
+
+ .valuestyle{
+   margin-bottom:0px;
+   padding-bottom:0px;
+   margin-left:5px;
+ }
+
+ .buttonstyle{
+   float:right;
+   margin-right:10px;
+ }
+
+ .panelstyle{
+  max-height: 350px;
+  overflow:scroll;
+  -webkit-overflow-scrolling: touch;
+}
