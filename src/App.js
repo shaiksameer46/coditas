@@ -70,59 +70,60 @@ class App extends Component {
           </div>
         </nav>
 
-        {this.state.users.length ? (
-          this.state.users.map(user => (
-          <div className="template jumbotron">
-            <div>
-              <img
-                src={user.avatar_url}
-                className="iconDetails rounded-circle"
-                alt="not found git_image"
-              />
-            </div>
-            <div className="styleplate">
-              <h2>{user.login}</h2>
-              <h5>Profile : {user.html_url}</h5>
-              <button
-                className="buttonstyle btn btn-primary"
-                onClick={this.repodetails.bind(this, user.login)}
-              >
-                {this.state.toggle ? "Collapse" : "Details"}
-              </button>
-              <p className="valuestyle">Data one : Value one</p>
-              <p className="valuestyle">Data two : Value two</p>
-            </div>
-         
-            {this.state.toggle && this.state.repos.length ? (
-              <div className="panel panel-default panelstyle">
-                <table className="table table-dark">
-                  <thead>
-                    <tr>
-                      <th style={{ color: "yellow" }}>Repository Name</th>
-                      <th style={{ color: "yellow" }}>Repository language</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.repos.map(repo => (
-                      <tr key={repo.id}>
-                        <td>
-                          <p>{repo.name}</p>
-                        </td>
-                        <td>
-                          <p>{repo.language}</p>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+        {this.state.users.length
+          ? this.state.users.map(user => (
+              <div className="template jumbotron">
+                <div>
+                  <img
+                    src={user.avatar_url}
+                    className="iconDetails rounded-circle"
+                    alt="not found git_image"
+                  />
+                </div>
+                <div className="styleplate">
+                  <h2>{user.login}</h2>
+                  <h5>Profile : {user.html_url}</h5>
+                  <button
+                    className="buttonstyle btn btn-primary"
+                    onClick={this.repodetails.bind(this, user.login)}
+                  >
+                    {this.state.toggle ? "Collapse" : "Details"}
+                  </button>
+                  <p className="valuestyle">Data one : Value one</p>
+                  <p className="valuestyle">Data two : Value two</p>
+                </div>
+
+                {this.state.toggle && this.state.repos.length ? (
+                  <div className="panel panel-default panelstyle">
+                    <table className="table table-dark">
+                      <thead>
+                        <tr>
+                          <th style={{ color: "yellow" }}>Repository Name</th>
+                          <th style={{ color: "yellow" }}>
+                            Repository language
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.state.repos.map(repo => (
+                          <tr key={repo.id}>
+                            <td>
+                              <p>{repo.name}</p>
+                            </td>
+                            <td>
+                              <p>{repo.language}</p>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
-            ) : (
-              ""
-            )}
-          </div>
-        ))) : (
-          ""
-        )}
+            ))
+          : ""}
       </React.Fragment>
     );
   }
