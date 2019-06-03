@@ -89,19 +89,19 @@ class App extends Component {
             <ul class="navbar-nav mr-auto">
               <Dropdown className="dropdownstyle">
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
-                  Dropdown Button
+                  Sort By Name
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
                   <Dropdown.Item
                     onClick={this.sortasc.bind(this, this.state.users)}
                   >
-                    Sort A-Z
+                    Name A-Z
                   </Dropdown.Item>
                   <Dropdown.Item
                     onClick={this.sortdsc.bind(this, this.state.users)}
                   >
-                    Sort Z-A
+                    Name Z-A
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
