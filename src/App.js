@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
+import { Dropdown } from "react-bootstrap";
 import axios from "axios";
-import Repo from "./Repo";
-import { Route, Link, Switch } from "react-router-dom";
-import Dropdownbar from "./Dropdownbar";
+//import Dropdownbar from "./Dropdownbar";
 
 class App extends Component {
   state = {
@@ -34,11 +33,52 @@ class App extends Component {
       "https://api.github.com/users/" + search + "/repos"
     );
     this.setState({ repos });
-    console.log(this.state.repos);
-    //this.setState({ toggle : true });
+    console.log(this.state.repos[0].owner.login);
     this.setState(state => ({
       toggle: !state.toggle
     }));
+  };
+
+  sortasc = data => {
+    function sortOn(property) {
+      var sortOrder = 1;
+
+      if (property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+      }
+
+      return function(a, b) {
+        if (sortOrder === -1) {
+          return b[property].localeCompare(a[property]);
+        } else {
+          return a[property].localeCompare(b[property]);
+        }
+      };
+    }
+    const info = data.sort(sortOn("login"));
+    this.setState({ users: info });
+  };
+
+  sortdsc = data => {
+    function sortOn(property) {
+      var sortOrder = 1;
+
+      if (property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+      }
+
+      return function(a, b) {
+        if (sortOrder === -1) {
+          return b[property].localeCompare(a[property]);
+        } else {
+          return a[property].localeCompare(b[property]);
+        }
+      };
+    }
+    const info = data.sort(sortOn("-login"));
+    this.setState({ users: info });
   };
 
   render() {
@@ -47,7 +87,24 @@ class App extends Component {
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark container mt-1">
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <Dropdownbar />
+              <Dropdown className="dropdownstyle">
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Dropdown Button
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    onClick={this.sortasc.bind(this, this.state.users)}
+                  >
+                    Sort A-Z
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={this.sortdsc.bind(this, this.state.users)}
+                  >
+                    Sort Z-A
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </ul>
             <form
               onSubmit={this.handleSubmit}
@@ -85,27 +142,35 @@ class App extends Component {
                 <div className="styleplate">
                   <h2>{user.login}</h2>
                   <h5>Profile : {user.html_url}</h5>
-                  <Link
+                  <button
                     className="buttonstyle btn btn-primary"
-                    to={`/${user.login}`}
                     onClick={this.repodetails.bind(this, user.login)}
                   >
                     {this.state.toggle ? "Collapse" : "Details"}
-                  </Link>
+                  </button>
                   <p className="valuestyle">Data one : Value one</p>
                   <p className="valuestyle">Data two : Value two</p>
                 </div>
-
-                {this.state.toggle && this.state.repos.length ? (
-                  <div id="overlay-container">
-                    <Switch>
-                      <Route
-                        path="/:username"
-                        render={props => (
-                          <Repo repos={this.state.repos} {...props} />
-                        )}
-                      />
-                    </Switch>
+                {this.state.repos.length ? (
+                  <div className="panel panel-default panelstyle">
+                    <table className="table table-dark">
+                      {this.state.repos.map(repo =>
+                        this.state.toggle && repo.owner.login === user.login ? (
+                          <tbody>
+                            <tr key={repo.id}>
+                              <td>
+                                <p>{repo.name}</p>
+                              </td>
+                              <td>
+                                <p>{repo.language}</p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : (
+                          ""
+                        )
+                      )}
+                    </table>
                   </div>
                 ) : (
                   ""
