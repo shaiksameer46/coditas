@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
+import Repo from "./Repo";
+import { Route, Link, Switch } from "react-router-dom";
 import Dropdownbar from "./Dropdownbar";
 
 class App extends Component {
@@ -83,40 +85,27 @@ class App extends Component {
                 <div className="styleplate">
                   <h2>{user.login}</h2>
                   <h5>Profile : {user.html_url}</h5>
-                  <button
+                  <Link
                     className="buttonstyle btn btn-primary"
+                    to={`/${user.login}`}
                     onClick={this.repodetails.bind(this, user.login)}
                   >
                     {this.state.toggle ? "Collapse" : "Details"}
-                  </button>
+                  </Link>
                   <p className="valuestyle">Data one : Value one</p>
                   <p className="valuestyle">Data two : Value two</p>
                 </div>
 
                 {this.state.toggle && this.state.repos.length ? (
-                  <div className="panel panel-default panelstyle">
-                    <table className="table table-dark">
-                      <thead>
-                        <tr>
-                          <th style={{ color: "yellow" }}>Repository Name</th>
-                          <th style={{ color: "yellow" }}>
-                            Repository language
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {this.state.repos.map(repo => (
-                          <tr key={repo.id}>
-                            <td>
-                              <p>{repo.name}</p>
-                            </td>
-                            <td>
-                              <p>{repo.language}</p>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <div id="overlay-container">
+                    <Switch>
+                      <Route
+                        path="/:username"
+                        render={props => (
+                          <Repo repos={this.state.repos} {...props} />
+                        )}
+                      />
+                    </Switch>
                   </div>
                 ) : (
                   ""
