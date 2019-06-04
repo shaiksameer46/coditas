@@ -12,7 +12,7 @@ class App extends Component {
     repos: [],
     toggle: false,
     currentPage: 1,
-    todosPerPage: 10
+    todosPerPage: 5
   };
 
   constructor() {
