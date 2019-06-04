@@ -3,14 +3,22 @@ import "./App.css";
 import { Dropdown } from "react-bootstrap";
 import axios from "axios";
 //import Dropdownbar from "./Dropdownbar";
+//import { Route, Switch, Link} from 'react-router-dom';
 
 class App extends Component {
   state = {
     username: "",
     users: [],
     repos: [],
-    toggle: false
+    toggle: false,
+    currentPage: 1,
+    todosPerPage: 10
   };
+
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
 
   handleSubmit = async event => {
     event.preventDefault();
@@ -23,6 +31,12 @@ class App extends Component {
     this.setState({ details: "Details" });
     this.setState({ repos: "" });
   };
+
+  handleClick(event) {
+    this.setState({
+      currentPage: Number(event.target.id)
+    });
+  }
 
   handleChange = event => {
     this.setState({ username: event.target.value });
@@ -82,6 +96,32 @@ class App extends Component {
   };
 
   render() {
+    const { currentPage, todosPerPage, users } = this.state;
+
+    const indexOfLastTodo = currentPage * todosPerPage;
+    const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+    const currentTodos = users.slice(indexOfFirstTodo, indexOfLastTodo);
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(users.length / todosPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    const renderPageNumbers = pageNumbers.map(number => {
+      return (
+        <li>
+          <button
+            className="btn btn-small"
+            key={number}
+            id={number}
+            onClick={this.handleClick}
+          >
+            {number}
+          </button>
+        </li>
+      );
+    });
+
     return (
       <React.Fragment>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark container mt-1">
@@ -130,7 +170,7 @@ class App extends Component {
         </nav>
 
         {this.state.users.length
-          ? this.state.users.map(user => (
+          ? currentTodos.map(user => (
               <div className="template jumbotron">
                 <div>
                   <img
@@ -155,7 +195,8 @@ class App extends Component {
                   <div className="panel panel-default panelstyle">
                     <table className="table table-dark">
                       {this.state.repos.map(repo =>
-                        this.state.toggle && repo.owner.login === user.login ? (
+                        this.state.toggle &&
+                        repo.owner.login === user.login ? (
                           <tbody>
                             <tr key={repo.id}>
                               <td>
@@ -178,6 +219,9 @@ class App extends Component {
               </div>
             ))
           : ""}
+        <div className="col xs-6-push layout">
+          <ul className="pagination">{renderPageNumbers}</ul>
+        </div>
       </React.Fragment>
     );
   }
