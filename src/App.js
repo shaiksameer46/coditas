@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import { Dropdown } from "react-bootstrap";
 import axios from "axios";
-//import Dropdownbar from "./Dropdownbar";
-//import { Route, Switch, Link} from 'react-router-dom';
+
 
 class App extends Component {
   state = {
